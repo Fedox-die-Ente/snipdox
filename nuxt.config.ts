@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     ],
     css: ['~/assets/css/main.css'],
     nitro: {
-        preset: 'vercel'
+        preset: 'node-server'
     },
     typescript: {
         shim: false
