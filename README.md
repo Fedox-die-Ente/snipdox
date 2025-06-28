@@ -43,6 +43,7 @@ requests, contributions are very welcome 😉. Just keep in mind the codebase is
 2. Rename `.env.example` to `.env` and fill in the required environment variables.
 3. Rename all .example files in the /public/legal/ directory to remove the `.example` suffix. And fill in the stuff you
    need.
+4. Create the database tables, all commands are listed in the `database.sql` file in the root directory.
 
 ---
 
