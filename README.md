@@ -41,9 +41,19 @@ requests, contributions are very welcome 😉. Just keep in mind the codebase is
 
 1. Clone the stuff, use `npm install` or `pnpm install` or what you prefer.
 2. Rename `.env.example` to `.env` and fill in the required environment variables.
-3. Rename all .example files in the /public/legal/ directory to remove the `.example` suffix. And fill in the stuff you
-   need.
+3. Change everything from the `/public/legal/` directory to your own legal documents, or remove them if you don't need
+   them.
+    - The files in this directory are placeholders and should not be used as-is.
 4. Create the database tables, all commands are listed in the `database.sql` file in the root directory.
+
+---
+
+## Important Notice on Legal Documents
+
+If you deploy this project yourself or use it for your own purposes, **you MUST remove or replace all data in
+the `/public/legal/` directory (Imprint, Privacy Policy, etc.) before making the site public.**  
+The provided legal files contain placeholder information only and are not intended for use by third parties. Proper
+legal compliance and liability are your responsibility.
 
 ---
 
