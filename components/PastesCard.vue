@@ -88,6 +88,15 @@ const deletePaste = (pasteId: string) => {
 			isLoading.value = false;
 		});
 }
+
+const openPaste = (pasteId: string) => {
+	if (!pasteId) {
+		toast.danger('Paste ID is required to open a paste.', {duration: 5000});
+		return;
+	}
+
+	window.open(`/paste/${pasteId}`, '_blank');
+}
 </script>
 
 <template>
@@ -101,8 +110,9 @@ const deletePaste = (pasteId: string) => {
 					<span class="px-2 py-1 bg-slate-700 text-slate-300 text-xs rounded-full border border-slate-600">
 								{{ language.charAt(0).toUpperCase() + language.slice(1) }}
 							</span>
-					<span :class="isPrivate ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' : 'bg-green-500/20 text-green-400 border-green-500/30'"
-						  class="px-2 py-1 text-xs rounded-full border"
+					<span
+						:class="isPrivate ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' : 'bg-green-500/20 text-green-400 border-green-500/30'"
+						class="px-2 py-1 text-xs rounded-full border"
 					>
 						{{ isPrivate ? 'Private' : 'Public' }}
 					</span>
@@ -123,6 +133,11 @@ const deletePaste = (pasteId: string) => {
 				</div>
 			</div>
 			<div class="flex items-center space-x-2 ml-4">
+				<button class="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
+						@click="openPaste(props.id)">
+					<svgo-arrow-up class="text-lg"/>
+				</button>
+
 				<button class="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
 						@click="copyToClipboard	">
 					<svgo-copy class="text-lg"/>

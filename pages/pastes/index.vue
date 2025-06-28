@@ -103,14 +103,14 @@ onMounted(() => {
 				/>
 				<PastesStatsCard
 					:amount="totalCountPublic"
-					icon="svgo-file"
+					icon="svgo-globe"
 					icon-bg-color="bg-blue-500/20"
 					icon-color="text-blue-400"
 					title="Public"
 				/>
 				<PastesStatsCard
 					:amount="totalCountPrivate"
-					icon="svgo-file"
+					icon="svgo-lock"
 					icon-bg-color="bg-yellow-500/20"
 					icon-color="text-yellow-400"
 					title="Private"

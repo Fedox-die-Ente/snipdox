@@ -434,7 +434,8 @@ document.addEventListener('fullscreenchange', () => {
 					<div class="grid grid-cols md:grid-cols-4 gap-3">
 						<label
 							v-for="time in expirationTypes"
-							:key="time.id" class="flex items-center p-3 bg-slate-700 rounded-lg border border-slate-600 hover:border-primary cursor-pointer transition-colors"
+							:key="time.id"
+							class="flex items-center p-3 bg-slate-700 rounded-lg border border-slate-600 hover:border-primary cursor-pointer transition-colors"
 							@click="form.expirationType = time.id">
 							<input v-model="form.expirationType" :value="time.id" class="sr-only" name="expiration"
 								   type="radio"/>
@@ -500,7 +501,8 @@ document.addEventListener('fullscreenchange', () => {
 						<div class="mb-4">
 							<label class="block text-sm font-medium text-slate-300 mb-2" contenteditable="false">Error
 								Title</label>
-							<input id="error-title" v-model="form.errorTitle" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+							<input id="error-title" v-model="form.errorTitle"
+								   class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
 								   placeholder="e.g., FileNotFoundError, Syntax Error..."
 								   type="text">
 						</div>
@@ -555,6 +557,10 @@ document.addEventListener('fullscreenchange', () => {
 .ͼo {
 	background-color: #1e293b; /* bg-slate-800 */
 	font-family: "JetBrains Mono", monospace !important;
+}
+
+.ͼo {
+	background-color: #1e293b;
 }
 
 .ͼo .cm-gutters {

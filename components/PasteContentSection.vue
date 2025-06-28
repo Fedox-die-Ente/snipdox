@@ -296,6 +296,10 @@ onBeforeUnmount(() => {
 	background-color: #374151 !important; /* slate-700 */
 }
 
+.ͼo {
+	background-color: #1e293b !important; /* slate-800 */
+}
+
 .cm-focused {
 	outline: none !important;
 	background-color: #1e293b !important; /* slate-800 */

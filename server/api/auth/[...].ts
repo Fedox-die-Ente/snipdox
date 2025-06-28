@@ -22,20 +22,26 @@ export default NuxtAuthHandler({
     ],
     callbacks: {
         async signIn({user}) {
-            const allowedUsers = useAppConfig().app?.allowedUsers || [];
-
             const userEmail = user?.email || '';
 
-            if (await alreadyRegistered(userEmail)) {
-                return true;
-            } else {
-                if (!allowedUsers.includes(userEmail)) {
-                    return false;
-                }
+            const sql = usePostgres();
 
-                await createGitHubUser(user as any);
+            const [allowedUser] = await sql`
+                SELECT email
+                FROM allowed_emails
+                WHERE email = ${userEmail} LIMIT 1
+            `;
+
+            if (await alreadyRegistered(userEmail) && allowedUser) {
                 return true;
             }
+
+            if (!allowedUser) {
+                return false;
+            }
+
+            await createGitHubUser(user as any);
+            return true;
         }
     }
 })
