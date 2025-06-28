@@ -1,6 +1,6 @@
 # Snipdox
 
-> **Warning**: This is by no means a professional or production-ready project, it’s purely a hobby project. The code
+> **Warning**: This is by no means a professional or company-ready project, it’s purely a hobby project. The code
 > quality is quite rough in many places, so please be gentle!
 > Pull requests are very welcome 😉.
 
