@@ -9,10 +9,12 @@ export default defineNuxtConfig({
         '@nuxt/eslint',
         '@sidebase/nuxt-auth',
         'nuxt-svgo',
-        '@nuxthub/core',
         'nuxt-cron'
     ],
     css: ['~/assets/css/main.css'],
+    nitro: {
+        preset: 'vercel'
+    },
     typescript: {
         shim: false
     },
