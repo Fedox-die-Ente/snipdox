@@ -1,6 +1,5 @@
 export interface SnipdoxConfig {
     name?: string;
-    allowedUsers?: string[];
 }
 
 declare module '@nuxt/schema' {
@@ -11,7 +10,6 @@ declare module '@nuxt/schema' {
 
 export default defineAppConfig({
     app: {
-        name: 'Snipdox',
-        allowedUsers: ['mrminecrafttv19@gmail.com']
+        name: 'Snipdox'
     } as SnipdoxConfig
 });
