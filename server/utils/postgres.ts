@@ -6,7 +6,7 @@ export function usePostgres() {
     }
 
     return postgres(process.env.NUXT_POSTGRES_URL as string, {
-        ssl: true,
+        ssl: false,
         prepare: false
     })
 }
