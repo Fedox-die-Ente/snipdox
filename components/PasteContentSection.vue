@@ -24,6 +24,7 @@ import {yaml} from "@codemirror/lang-yaml";
 import {markdown} from "@codemirror/lang-markdown";
 import {oneDark} from "@codemirror/theme-one-dark";
 import {EditorState} from "@codemirror/state";
+import {dockerFile} from "@codemirror/legacy-modes/mode/dockerfile";
 
 const props = defineProps({
 	fileName: {
@@ -132,7 +133,7 @@ const getLanguageExtension = (language: string) => {
 		case 'powershell':
 			return StreamLanguage.define(shell)
 		case 'dockerfile':
-			return StreamLanguage.define(shell) // Dockerfile uses shell-like syntax
+			return StreamLanguage.define(dockerFile) // Dockerfile uses shell-like syntax
 		case 'plaintext':
 		default:
 			return []
