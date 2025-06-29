@@ -42,33 +42,21 @@ export default defineEventHandler(async (event) => {
     `;
 
     const countResult = await sql`
-        SELECT COUNT(*)
+        SELECT COUNT(*) AS total,
+               COUNT(*)    FILTER (WHERE private = false) AS public,
+            COUNT(*) FILTER (WHERE private = true) AS private
         FROM pastes
         WHERE user_id = ${userId}
     `;
 
-    const publicCount = await sql`
-        SELECT COUNT(*)
-        FROM pastes
-        WHERE user_id = ${userId}
-          AND private = false
-    `;
-
-    const privateCount = await sql`
-        SELECT COUNT(*)
-        FROM pastes
-        WHERE user_id = ${userId}
-          AND private = true
-    `;
-
-    const totalCount = parseInt(countResult[0].count, 10);
+    const {total, public: publicCount, private: privateCount} = countResult[0];
 
     return {
         pastes,
-        totalCount,
-        publicCount: parseInt(publicCount[0].count, 10),
-        privateCount: parseInt(privateCount[0].count, 10),
-        totalPages: Math.ceil(totalCount / pageSize),
+        totalCount: parseInt(total, 10),
+        publicCount: parseInt(publicCount, 10),
+        privateCount: parseInt(privateCount, 10),
+        totalPages: Math.ceil(parseInt(total, 10) / pageSize),
         page,
         pageSize,
     };
