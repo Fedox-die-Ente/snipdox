@@ -25,6 +25,7 @@ import {shell} from "@codemirror/legacy-modes/mode/shell";
 import {r} from "@codemirror/legacy-modes/mode/r";
 import {perl} from "@codemirror/legacy-modes/mode/perl";
 import {lua} from "@codemirror/legacy-modes/mode/lua";
+import {dockerFile} from "@codemirror/legacy-modes/mode/dockerfile";
 
 definePageMeta({
 	auth: true
@@ -191,7 +192,7 @@ const getLanguageExtension = (language: string) => {
 		case 'powershell':
 			return StreamLanguage.define(shell)
 		case 'dockerfile':
-			return StreamLanguage.define(shell) // Dockerfile uses shell-like syntax
+			return StreamLanguage.define(dockerFile) // Dockerfile uses shell-like syntax
 		case 'plaintext':
 		default:
 			return []
