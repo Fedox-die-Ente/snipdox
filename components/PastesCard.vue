@@ -33,10 +33,11 @@ const props = defineProps({
 const toast = useToast();
 
 const copyToClipboard = () => {
-	navigator.clipboard.writeText(props.content).then(() => {
+	const pasteUrl = window.location.origin + `/paste/${props.id}`;
+	navigator.clipboard.writeText(pasteUrl).then(() => {
 		toast.success('Copied to clipboard!', {duration: 2000});
 	}).catch(err => {
-		toast.danger('Failed to copy text', {duration: 2000});
+		toast.danger('Failed to copy url', {duration: 2000});
 	});
 };
 
