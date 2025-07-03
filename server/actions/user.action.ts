@@ -11,17 +11,20 @@ export async function createGitHubUser(user: GitHubUser) {
     const sql = usePostgres();
 
     const existing = await sql`
-        SELECT id, email, image, username FROM users WHERE email = ${user.email}
+        SELECT id, email, image, username
+        FROM users
+        WHERE email = ${user.email}
     `;
 
     if (existing.length > 0) {
         return existing[0];
     }
 
+    const apiKey = crypto.randomUUID();
+
     const inserted = await sql`
-        INSERT INTO users (email, image, username)
-        VALUES (${user.email}, ${user.image}, ${user.username})
-        RETURNING id, email, image, username
+        INSERT INTO users (email, image, username, api_key)
+        VALUES (${user.email}, ${user.image}, ${user.username}, ${apiKey}) RETURNING id, email, image, username
     `;
 
     return inserted[0];
@@ -54,7 +57,7 @@ export async function getUserByEmail(email: string) {
     const sql = usePostgres();
 
     const result = await sql`
-        SELECT id, email, image, username
+        SELECT id, email, image, username, api_key
         FROM users
         WHERE email = ${email}
     `;
