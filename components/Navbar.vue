@@ -21,6 +21,10 @@ const {status, data, signOut} = useAuth()
 					<svgo-list class="text-lg text-slate-300 my-0.5"/>
 					My Pastes
 				</Button>
+				<Button variant="secondary" @click="navigateTo('/profile')">
+					<svgo-human class="text-lg text-slate-300 my-0.5"/>
+					Profile
+				</Button>
 				<button class="p-2 hover:bg-slate-700 rounded-lg transition-colors cursor-pointer" @click="signOut">
 					<svgo-logout class="text-lg text-white my-0.5"/>
 				</button>
