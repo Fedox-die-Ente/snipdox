@@ -16,10 +16,7 @@ useSeoMeta({
 	ogUrl: 'https://snipdox.fedox.ovh',
 	twitterTitle: app.name + ' — Another Code-Sharing Platform',
 	twitterDescription: app.name + ' is a code-sharing platform that allows you to share code snippets with others.',
-	themeColor: "#6366F1FF",
-	author: 'Fedox',
-	applicationName: app.name,
-	viewport: 'width=device-width, initial-scale=1',
+	themeColor: "#6366F1",
 })
 
 </script>
