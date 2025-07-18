@@ -1,13 +1,16 @@
 import postgres from 'postgres'
 
-export function usePostgres() {
-    if (!process.env.NUXT_POSTGRES_URL) {
-        throw createError('Missing `NUXT_POSTGRES_URL` environment variable')
-    }
+let sql: ReturnType<typeof postgres> | null = null
 
-    return postgres(process.env.NUXT_POSTGRES_URL as string, {
-        // deactivate ssl,
-        ssl: {rejectUnauthorized: false},
-        prepare: false
+export function usePostgres() {
+  if (!sql) {
+    if (!process.env.NUXT_POSTGRES_URL) {
+      throw new Error('Missing `NUXT_POSTGRES_URL` environment variable')
+    }
+    sql = postgres(process.env.NUXT_POSTGRES_URL, {
+      ssl: { rejectUnauthorized: false },
+      prepare: false
     })
+  }
+  return sql
 }
