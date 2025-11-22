@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS pastes (
         error_title VARCHAR(255),
         error_content TEXT,
         private BOOLEAN DEFAULT FALSE,
+        password_hash VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
