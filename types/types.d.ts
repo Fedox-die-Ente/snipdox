@@ -6,6 +6,7 @@ export interface CreatePastePayload {
     errorTitle: string;
     errorDetails: string;
     isPrivate: boolean;
+    password?: string;
 }
 
 export interface Paste {
@@ -20,6 +21,7 @@ export interface Paste {
     error_title: string | 'Error Log';
     error_content: string | 'No error details provided';
     private: boolean;
+    requiresPassword?: boolean;
 }
 
 import 'next-auth'

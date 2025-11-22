@@ -1,7 +1,7 @@
 import {getServerSession} from "#auth";
 import {getUserByEmail} from "~/server/actions/user.action";
 import type {CreatePastePayload} from "~/types/types";
-import {generatePasteId} from "~/server/utils/crypto";
+import {generatePasteId, hashPassword} from "~/server/utils/crypto";
 
 export default defineEventHandler(async (event) => {
     const session = await getServerSession(event)
@@ -20,6 +20,14 @@ export default defineEventHandler(async (event) => {
             statusCode: 400,
             statusMessage: 'Bad Request',
             message: 'Title, content, and language are required.'
+        });
+    }
+
+    if (body.isPrivate && !body.password) {
+        throw createError({
+            statusCode: 400,
+            statusMessage: 'Bad Request',
+            message: 'Password is required for private pastes.'
         });
     }
 
@@ -79,10 +87,11 @@ export default defineEventHandler(async (event) => {
         const sql = usePostgres();
 
         const pasteId = generatePasteId(userEmail);
+        const passwordHash = body.isPrivate && body.password ? hashPassword(body.password) : null;
 
         const [paste] = await sql`
             INSERT INTO pastes (id, user_id, paste_title, language, expiration,
-                                content, error_title, error_content, private)
+                                content, error_title, error_content, private, password_hash)
             VALUES (${pasteId},
                     ${user.id},
                     ${body.title},
@@ -91,7 +100,8 @@ export default defineEventHandler(async (event) => {
                     ${body.codeContent},
                     ${body.errorTitle || null},
                     ${body.errorDetails || null},
-                    ${body.isPrivate || false}) RETURNING id;
+                    ${body.isPrivate || false},
+                    ${passwordHash}) RETURNING id;
         `;
 
         return {

@@ -9,10 +9,52 @@ definePageMeta({
 
 const route = useRoute();
 const id = route.params.id as string;
+const toast = useToast();
 
-const {data: paste, pending: loading, error} = await useFetch<Paste>(`/api/paste/${id}`, {
+const showPasswordModal = ref(false);
+const passwordInput = ref('');
+const isVerifying = ref(false);
+const passwordError = ref('');
+
+const {data: initialData, pending: loading, error: initialError} = await useFetch<any>(`/api/paste/${id}`, {
 	server: true
 });
+
+const requiresPassword = ref(initialData.value?.requiresPassword || false);
+const paste = ref<Paste | null>(requiresPassword.value ? null : initialData.value);
+const error = ref(initialError.value);
+
+if (requiresPassword.value) {
+	showPasswordModal.value = true;
+}
+
+const fetchWithPassword = async () => {
+	if (!passwordInput.value) {
+		passwordError.value = 'Please enter a password';
+		return;
+	}
+
+	isVerifying.value = true;
+	passwordError.value = '';
+
+	try {
+		const response = await $fetch<Paste>(`/api/paste/${id}`, {
+			headers: {
+				'x-paste-password': passwordInput.value
+			}
+		});
+
+		paste.value = response;
+		showPasswordModal.value = false;
+		requiresPassword.value = false;
+		toast.success('Password verified successfully!', {duration: 3000});
+	} catch (err: any) {
+		passwordError.value = err.data?.message || 'Invalid password';
+		toast.danger('Invalid password', {duration: 3000});
+	} finally {
+		isVerifying.value = false;
+	}
+};
 
 const createDescription = (paste: Paste) => {
 	const parts = [];
@@ -51,7 +93,7 @@ const formatDate = (dateString: string) => {
 	});
 };
 
-if (paste.value) {
+if (paste.value && !requiresPassword.value) {
 	const description = createDescription(paste.value);
 	const title = paste.value.paste_title + ' — Snipdox';
 
@@ -127,6 +169,45 @@ const changeSection = (section: 'code' | 'error') => {
 
 <template>
 	<main class="max-w-7xl mx-auto px-6 py-8 w-full">
+		<div v-if="showPasswordModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+			<div class="bg-slate-800 border border-slate-700 rounded-lg p-8 max-w-md w-full mx-4">
+				<div class="flex items-center mb-6">
+					<svgo-lock class="text-primary text-3xl mr-3"/>
+					<h2 class="text-2xl font-bold text-white">Password Required</h2>
+				</div>
+				
+				<p class="text-slate-300 mb-6">
+					This paste is private and requires a password to view.
+				</p>
+				
+				<div class="mb-4">
+					<label class="block text-sm font-medium text-slate-300 mb-2">
+						Enter Password
+					</label>
+					<input
+						v-model="passwordInput"
+						type="password"
+						class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+						placeholder="Enter password..."
+						@keyup.enter="fetchWithPassword"
+					/>
+					<p v-if="passwordError" class="text-red-400 text-sm mt-2">
+						{{ passwordError }}
+					</p>
+				</div>
+				
+				<div class="flex space-x-3">
+					<Button variant="secondary" class="flex-1" @click="navigateTo('/')">
+						Cancel
+					</Button>
+					<Button variant="primary" class="flex-1" :is-loading="isVerifying" @click="fetchWithPassword">
+						<svgo-check class="text-lg my-0.5"/>
+						Verify
+					</Button>
+				</div>
+			</div>
+		</div>
+
 		<div v-if="loading">
 			<PasteHeader :loading="true"/>
 			<PasteTabs :loading="true"/>
