@@ -68,6 +68,7 @@ const form = ref({
 	errorTitle: '',
 	errorDetails: '',
 	isPrivate: false,
+	password: '',
 })
 const isLoading = ref(false)
 const toast = useToast()
@@ -84,6 +85,14 @@ const onSubmit = () => {
 		return
 	}
 
+	if (form.value.isPrivate && !form.value.password) {
+		toast.danger('Please enter a password for private paste.', {
+			duration: 5000
+		})
+		isLoading.value = false
+		return
+	}
+
 	const data = {
 		title: form.value.title,
 		language: form.value.language,
@@ -92,6 +101,7 @@ const onSubmit = () => {
 		errorTitle: form.value.errorTitle,
 		errorDetails: form.value.errorDetails,
 		isPrivate: form.value.isPrivate,
+		password: form.value.password,
 	}
 
 	window.fetch('/api/paste/create', {
@@ -530,7 +540,7 @@ document.addEventListener('fullscreenchange', () => {
 						>
 							<svgo-check v-if="form.isPrivate" class="text-white text-xs my-0.5"/>
 						</div>
-						<span class="text-sm text-slate-300">Private paste (WIP)</span>
+						<span class="text-sm text-slate-300">Private paste (Password Protected)</span>
 					</label>
 
 					<input
@@ -539,6 +549,16 @@ document.addEventListener('fullscreenchange', () => {
 						class="sr-only"
 						type="checkbox"
 					/>
+					
+					<div v-if="form.isPrivate" class="flex items-center">
+						<input
+							id="paste-password"
+							v-model="form.password"
+							class="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+							placeholder="Enter password..."
+							type="password"
+						/>
+					</div>
 				</div>
 				<div class="flex items-center space-x-3">
 					<Button variant="secondary" @click="navigateTo('/')">
